@@ -1,0 +1,154 @@
+CHANGEMENTS DES DIFFÉRENTES VERSIONS
+
+Changements de la version 0.10 :
+********************************************************************
+- pour le staging, vérification de la quantité d'oxydant pour les moteurs
+    utilisant des carburants autres que de l'ergol liquide ;
+- modification du décollage pour prendre en compte la présence de rampes
+    de lancement à n'importe quel endroit ;
+- modification du staging pour ne prendre en compte que les prochains sépatrons
+    et non pas tous les sépatrons du vaisseau ;
+- ajout d'un bouton de staging immédiat, notamment pour les joueurs souhaitant
+    récupérer leurs boosters ;
+- gestion de moteurs atmosphériques au décollage.
+
+Changements de la version 0.9 :
+********************************************************************
+- modification de la fonction executerManoeuvre() pour prendre en compte
+    la présence d'un découpleur tout seul dans un étage ;
+- dans le cas d'un lancement unique, suppression de la fenêtre d'arrêt d'urgence
+    lorsque l'utilisateur décide de poursuivre le vol (après la mise en orbite par exemple) ;
+- dans la fonction startNewAmp(), prise en compte de l'amplitude qui
+    devient inférieure ou égale à 60 ;
+- déclenchement du RCS dès la coupure des moteurs pendant le GT :
+    permet d'aider le suivi de prograde pour les crafts qui ont des RCS
+    à l'extérieur de la coiffe ;
+- changement de la fonction de staging pour prendre en compte notamment
+    les montages en asperge qui utilisent plusieurs réservoirs à ergol liquide
+    mais un seul moteur
+- dans le mode "valeurs préselectionnées", ajout d'un bouton "vpitch = 0 m/s"
+    pour gérer les TWR trop importants qui ne proposent que des vitesses négatives ;
+- warp jusqu'à 30 secondes avant la manoeuvre (à la place de 20 sec avant) ;
+- changement de certains wordings ;
+- à la fin d'un lancement unique, coupure du RCS, rallumage du SAS avec le mode PROGRADE ;
+- ajout d'une popup de warning au lancement du script lorsque le TWR est trop élevée et que
+    la vPitch calculées est négative ;
+- ajout du nom du vaisseau dans la fenêtre de récap à la fin de la simulation ;
+- changement de visuel pour la fenêtre de récap à la fin de la simulation ;
+- ajout d'un bouton dans la fenêtre de récap pour sauvegarder toutes les données de la simulation ;
+- ajout d'une popup "je suis un pro" pour permettre à un joueur de choisir lui-même si le vol 
+    est un succès ou un échec ;
+- modification/amélioration de la fonction qui gère le changement de delta et de vPitch pour éviter une répétition
+    de certains vols avec les mêmes valeurs de vPitch ;
+- renommage de tous les fichiers et dossiers en utilisant uniquement des minuscules
+    pour être compatible avec un système Linux ;
+- mise en place d'une nouvelle formule pour gérer les cas où le script donne une amplitude trop faible ;
+- ajout du numéro de version dans la fenêtre principale ;
+- ajout du bouton de changement de langue qui avait disparu avec la fenêtre warning ;
+- ajout du déploiement automatique des antennes et des panneaux solaires pour les vols uniques.
+
+Changements de la version 0.8 :
+********************************************************************
+- modification du calcul du TWR pour prendre en compte la config :
+    moteur principal -> boosters -> rampe de lancement ;
+- modification de la LIB_doFlight : ajout de la condition hasModule
+    pour le déploiement de la coiffe (nécessaire si le composant tagué
+    n'est pas une coiffe mais un composant qui possède des modules) ;
+- modification de la LIB_launchOptiGT pour prendre en compte
+    une baisse d'amplitude (-5°) lorsque l'amplitude actuelle se solide
+    par un succès malgré une vPitch de 0 m/s ;
+- si une simulation est en cours et a été brutalement arrêté :
+    * si le vaisseau chargé n'est pas celui de la simulation, le script
+    le signale et demande à l'utilisateur de changer de vaisseau ou bien 
+    de supprimer l'ancienne simulation.
+    * si le vaisseau chargé est le même que la simulation,
+    le joueur est invité à poursuivre ou annuler la simulation
+- ajout d'un bouton d'annulation pour arrêter une simulation manuellement
+    solution temporaire en attendant de pouvoir gérer correctement l'explosion d'un craft
+- ajout automatique du tag 'coiffe' sur toutes les coiffes.
+- suppression de la fenêtre "warning" au lancement du script.
+
+Changements de la version 0.7 :
+********************************************************************
+- ajout du dictionnaire français ;
+- ajout du dictionnaire anglais ;
+- correction apportée à la fonction actualiseRudFile() ;
+- ajout de la circularisation dans la fonction doFlight().
+- découpage du programme en librairies
+- ajout de sous-dossiers pour l'organisation complète du programme
+- ajout d'une condition pour que la simulation opti ne reprenne (après une interruption)
+  que si le craft chargé est celui qui avait débuté la précédente simulation.
+
+Changements de la version 0.6 :
+********************************************************************
+- changement de la fonction de déploiement de la coiffe pour
+    éviter de faire planter kOS si la coiffe a déjà été déployée ;
+- ajout d'une nouvelle condition d'échec en mode OPTI : altitude > 10 km et angle > 70° ;
+- ajout d'une nouvelle condition d'échec en cas de surchauffe (explosion de la coiffe)
+    ne semble pas fonctionner
+    création d'un fichier RUD.csv pour récupérer les infos de l'explosion
+    RUD = Rapid Unscheduled Disassembly ;
+- ajout d'un paramètre optionnel dans la fonction declareStatus pour déclarer un arrêt d'urgence ;
+- changement de la condition d'échec pour le prograde et l'horizon :
+    on accepte jusqu'à 0.5° sous l'horizon ;
+- création des fonctions declareSucces, declareEchec, actualiseDataFile ;
+- changement des noms des trois modes pour éviter les confusions ;
+- intégration d'un paragraphe de présentation pour chacun des modes ;
+- augmentation de la taille de la fenêtre ;
+- la fenêtre est maintenant chargée au centre (horizontalement) de l'écran ;
+- Création d'une variable numFlight pour compter le nombre de vols effectués ;
+- création d'une popup visible pendant le vol lorsqu'un GT OPTI est en cours ;
+- conversion de realTime en jour/mois/année h/min/sec ;
+- création d'une fenêtre de récap à la fin de l'optimisation ;
+- correction de la rotation initiale du vaisseau ;
+- modification du premier delta : 8m/s au lieu de 10m/s ;
+- si deux vols successifs ont le même résultat (échec ou succès), le delta n'est pas modifié ;
+- ajout du ratio carburant solide / carburant liquide pour modifier la vPitch suggérée en conséquence ;
+- ajout d'une ligne dans la fenêtre principale qui indique si un test a déjà été fait avec le vaisseau ;
+- ajout de la circularisation dans la fonction doFlight().
+
+Changements de la version 0.5 :
+********************************************************************
+- implémentation de la recherche d'un GT optimisé
+
+Changements de la version 0.4 :
+********************************************************************
+- trois menus sont maintenant proposés :
+    * AUTO : l'utilisateur a connaissance des valeurs calculées par le script,
+             il peut les modifier en utilisant uniquement des choix prédéfinis
+             un champs manuel n'est plus disponible dans ce menu
+    * MANUEL : l'utilisateur peut entrer manuellement une amplitude et une vitesse
+               le script se ramène toujours à une amplitude entre 0 et 90°
+               le script se ramène toujours à une vitesse supérieure ou égale à 0
+    * OPTI : Fenêtre non implémentée encore
+- modification des comportements des boutons : changement de onClick pour takePress
+- nouvelle fenêtre lorsque l'espace est atteint avec l'option "GT seulement"
+
+Changements de la version 0.3 :
+********************************************************************
+- ajout de différents boutons :
+    * possibilité pour l'utilisateur de finir le script dès l'arrivée dans l'espace
+    * possibilité pour l'utilisateur de laisser le script circulariser
+- le bouton annuler n'éteint plus le CPU (ce qui obligeait alors une relance manuelle)
+- l'affichage des caractéristiques de l'orbite se met maintenant sous forme
+  d'une fenêtre graphique qui permet à l'utilisateur de poursuivre le vol
+  ou bien de relancer le vaisseau
+- une vitesse négative empêche maintenant l'exécution du décollage
+- si l'utilisateur écrit dans le champ de vitesse un texte qui ne correspond pas à
+  un nombre, alors le script traduit le texte comme étant égal à -1 (ce qui empêche
+  l'exécution du script car c'est interprété comme une vitesse négative.)
+
+Changements de la version 0.2 :
+********************************************************************
+- le vol est complet et se termine après la circularisation
+- une condition d'échec a été ajoutée (prograde en dessous de l'horizon)
+- affichage des caractéristiques de l'orbite une fois la circularisation finie
+
+Version 0.1 :
+********************************************************************
+- création de la fenêtre principale qui tient en une page :
+    * possibilité de sélectionner des options pour changer l'amp et le vPitch
+    * possibilité d'entrer à la main une valeur de vPitch
+- un bouton permet de déclencher le vol,
+    un autre déclenche la recherche de GT opti
+    et un dernier quitte le programme en éteingnant le module kOS (commande shutdown)
