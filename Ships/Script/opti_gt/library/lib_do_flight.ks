@@ -68,7 +68,7 @@ function doFlight {
     if atmoEngine:length > 0 {
       set atmo to true.
       set oldThrust to ship:availableThrust.
-      if oldThrust <= 20 {
+      if oldThrust <= 5 {
         set atmo to false.
       }      
     }
