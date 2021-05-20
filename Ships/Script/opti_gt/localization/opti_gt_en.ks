@@ -174,8 +174,8 @@ set DIC_reset_sim_window_info_vPitch to "vPitch:".
 
 set DIC_reset_sim_window_info_question to "Do you wish to go continue the simulation or do you wish to start over the script (the last simulation will be definitively deleted)?".
 
-set DIC_reset_sim_window_button_change_text to "Continue simulation".
-set DIC_reset_sim_window_button_keep_text to "New simulation".
+set DIC_reset_sim_window_button_continue_text to "Continue simulation".
+set DIC_reset_sim_window_button_new_text to "New simulation".
 
 //--- ABORT POPUP
 set DIC_abort_popup_title to "<b>EMERGENCY STOP</b>".

@@ -1,9 +1,9 @@
 //**********************************************************
-//--- SCRIPT DE PHILIPPEDS - v 0.10.2 - 14 mai 2021
+//--- SCRIPT DE PHILIPPEDS - v 1.1.0 - 20 mai 2021
 //--- https://github.com/PhilouDS
 //--- Youtube : https://www.youtube.com/channel/UCgg7oLP24nMZgv4eCK6UjGQ
 
-global scriptVersion is "0.10.2".
+global scriptVersion is "1.1.0".
 global readFileFolder is "opti_gt/".
 global dir is "0:/".
 global mainFolder is dir + readFileFolder.
@@ -31,7 +31,7 @@ selectLanguage().
 wait until ship:unpacked.
 if core:version:minor >= 3 {set Config:suppressAutoPilot to false.}
 set terminal:width to 45.
-set terminal:height to 10.
+set terminal:height to 60.
 clearScreen.
 core:part:getmodule("kosProcessor"):doEvent("open terminal").
 

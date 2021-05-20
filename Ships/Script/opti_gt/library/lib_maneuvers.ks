@@ -14,13 +14,13 @@ function gravityTurn{
   wait until vAng(facing:vector,directionTilt:vector) < 1.
   wait until vAng(srfPrograde:vector, up:vector) > vAng(up:vector, facing:vector).
   lock steering to heading(90, 90 - vAng(up:vector, srfPrograde:vector)) + R(0,0,myRoll()).
-  wait until ship:altitude >= 36000 or apoapsis >= 0.98*altitudeCible.
+  wait until navMode = "orbit" or apoapsis >= 0.98*altitudeCible.
   lock steering to heading(90, 90 - vAng(up:vector, Prograde:vector)) + R(0,0,myRoll()).
   wait until apoapsis >= altitudeCible.
   lock throttle to 0.
   rcs on.
   wait 0.1.
-  until ship:altitude >= 69_500 {
+  until ship:altitude >= body:atm:height - 500 {
     // on warp ici car l'apoapsis peut être atteinte très vite
     // alors que le vaisseau est encore a une faible altitude
     set warp to 3. 

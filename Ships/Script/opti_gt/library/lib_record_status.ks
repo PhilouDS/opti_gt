@@ -1,3 +1,4 @@
+runOncePath(libFolder + "lib_variables").
 //**********************************************************
 //--- Fonction qui relance un vol après un échec ou un succès
 //__________________________________________________________
@@ -22,7 +23,7 @@ global function declareStatus {
 //__________________________________________________________
 global function actualiseDataFile {
   parameter str.
-  dataList:add(round(ship:apoapsis,2)).
+  dataList:add(round(ship:orbit:apoapsis,2)).
   dataList:add(str).
   wait 0.1.
   dataList:add(numFlight).
@@ -58,7 +59,7 @@ global function decreasingAmp {
     finalFile().
   }
   set oldDelta to 0.
-  set newDelta to 8.
+  set newDelta to deltaScale.
   set equation to equationLexicon[suggestedAmp].
   set initialSuggestedVpitch to equation(TWR).
   set newVpitch to choose 0 if initialSuggestedVpitch < 0 else initialSuggestedVpitch.
@@ -69,7 +70,7 @@ global function decreasingAmp {
   
   log kUniverse:realTime + ";" +
     suggestedAmp + ";" + oldDelta + ";" + newDelta + ";" +
-    newVpitch + ";" + minVpitch + ";" + maxVpitch + ";" + ship:apoapsis + ";" +
+    newVpitch + ";" + minVpitch + ";" + maxVpitch + ";" + ship:orbit:apoapsis + ";" +
     lastResult + ";" + numFlight + ";P" to dataFile.
   
   set readFile to addons:file:readAllLines(readFileFolder + nameTempFolder + dataFileName).
@@ -91,7 +92,7 @@ global function increasingAmp {
   //core:part:getmodule("kosProcessor"):doEvent("open terminal").
   createDir(tempFolder + "amp_already_increased_once").
   local altitudeFailure is ship:altitude.
-  local tempPitch is newVpitch + 1.7 * (20000 - altitudeFailure) / 1000.
+  local tempPitch is newVpitch + 1.7 * (20000*planetScale - altitudeFailure) / 1000.
   set newAmp to suggestedAmp + 5 * floor(tempPitch / 10).
   set suggestedAmp to choose 85 if newAmp > 85 else newAmp.
   until tempPitch < 1000 {
@@ -104,9 +105,9 @@ global function increasingAmp {
     set tempPitch to tempPitch - 10.
   }
   set newVpitch to choose tempPitch if newAmp <= 85 else tempPitch + abs(85 - newAmp).
-  set newVpitch to newVpitch - 8.
+  set newVpitch to newVpitch - deltaScale.
   set oldDelta to 0.
-  set newDelta to 8.
+  set newDelta to deltaScale.
   set minVpitch to choose goodLine[dataFile_MinVpitch_Index]:toNumber if goodLine:length <> 0 else 1000.
   set maxVpitch to choose goodLine[dataFile_MaxVpitch_Index]:toNumber if goodLine:length <> 0 else -1.
   set lastResult to "F".
@@ -114,7 +115,7 @@ global function increasingAmp {
 
   log kUniverse:realTime + ";" +
     suggestedAmp + ";" + oldDelta + ";" + newDelta + ";" +
-    newVpitch + ";" + minVpitch + ";" + maxVpitch + ";" + ship:apoapsis + ";" +
+    newVpitch + ";" + minVpitch + ";" + maxVpitch + ";" + ship:orbit:apoapsis + ";" +
     lastResult + ";" + numFlight + ";P" to dataFile.
   log kUniverse:realtime to endTimeFlightFile.
   declareStatus(DIC_flight_status_failure).
@@ -292,7 +293,7 @@ global function askResetSimulation {
 global function actualiseRudFile {
   local stopMission is time(missionTime):clock.
   local realTime is findRealDate().
-  local rudVelocity is choose ship:velocity:surface:mag if ship:altitude < 36_000 else ship:velocity:orbit:mag.
+  local rudVelocity is choose ship:velocity:surface:mag if navMode = "surface" else ship:velocity:orbit:mag.
   log realTime[0] + ";" + realTime[1] + ";" + ship:name + ";" + suggestedAmp + ";" + round(newVpitch, 0) + ";" + round(ship:altitude, 0) + ";" + round(rudVelocity,1) + ";" + stopMission to (rudFile).
 }
 

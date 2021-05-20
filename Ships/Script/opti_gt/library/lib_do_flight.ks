@@ -97,7 +97,7 @@ function doFlight {
   }
 
   if doOptiGT {
-    when ship:altitude > 10_000 then {
+    when ship:altitude > 10_000 * sqrt(planetScale) then {
       if vANg(up:vector, srfPrograde:vector) < 20 {
         actualiseDataFile("S").
         declareStatus(DIC_flight_status_failure).
@@ -107,7 +107,7 @@ function doFlight {
 
   // ~~~ condition d'échec du vol (le prograde passe sous l'horizon (0.5° de tolérance) avant d'atteindre l'espace) ~~~
   when vANg(up:vector, prograde:vector) > 90.5 then {
-    if ship:altitude > 500 and ship:altitude <= 70_000 and ship:status <> "preLaunch" {
+    if ship:altitude > 500 and ship:status <> "preLaunch" {
       if doOptiGT {
         if not exists(tempFolder + "amp_already_increased_once") and ship:altitude < 20_000 {
           increasingAmp().
@@ -120,7 +120,7 @@ function doFlight {
 
   // ~~~ condition de surchauffe : le vaisseau perd des composants en dehors d'un staging ~~~
   when ship:parts:length < numberOfParts then {
-    if ship:altitude < 70_000 {
+    if ship:altitude < body:atm:height {
       if (hasStaged = false or ship:deltaV = 0) and ship:status <> "preLaunch" {
         if doOptiGT {
           actualiseDataFile("F").
@@ -146,7 +146,7 @@ function doFlight {
   }
 
   // ~~~ condition de déploiement de la coiffe ~~~
-  when ship:altitude >= 70_000 then {
+  when ship:altitude >= body:atm:height then {
     rcs on.
     for part in ship:partsTagged(DIC_fairing_TAG) {
       if part:hasModule("ModuleProceduralFairing") {
@@ -162,7 +162,7 @@ function doFlight {
   gravityTurn(apoCible, amp). //-> cf fonction gravityTurn dans lib_maneuvers.ks
 
   // ~~~ Une fois le gravity Turn terminé, on attend d'atteindre l'espace ~~~
-  wait until ship:altitude > 70_000.
+  wait until ship:altitude > body:atm:height.
   wait 0.1.
   set kUniverse:timeWarp:mode to "RAILS".
   wait 0.1.

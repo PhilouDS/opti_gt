@@ -1,4 +1,5 @@
 runOncePath(libFolder + "lib_record_status").
+runOncePath(libFolder + "lib_variables").
 
 function launchOptiGT {
   core:part:getmodule("kosProcessor"):doEvent("close terminal").
@@ -12,7 +13,7 @@ function launchOptiGT {
   set dataList to list().
   dataList:add(kUniverse:realTime).
   local oldDelta is 0.
-  local newDelta is 8.
+  local newDelta is deltaScale.
   global newVpitch is choose 0 if initialSuggestedVpitch < 0 else initialSuggestedVpitch.
   local minVpitch is 1_000.
   local maxVpitch is -1.
@@ -127,7 +128,7 @@ function launchOptiGT {
         finalFile().
       }
       else {
-        set newDelta to choose 8 if changeAmp = true else computeNewDelta(oldDelta).
+        set newDelta to choose deltaScale if changeAmp = true else computeNewDelta(oldDelta).
       }
       set newVpitch to choose equationLexicon[suggestedAmp](TWR) if changeAmp = true else computeVpitch(newDelta).
       
@@ -172,7 +173,7 @@ function launchOptiGT {
           set vp to goodLine[dataFile_NewVpitch_Index]:toNumber + nD.
         }
         else {
-          if goodLine[dataFile_oldDelta_Index] = 0 and goodLine[dataFile_newDelta_Index] = 8 and goodLine[dataFile_NewAmp_Index] = "Y" {
+          if goodLine[dataFile_oldDelta_Index] = 0 and goodLine[dataFile_newDelta_Index] = deltaScale and goodLine[dataFile_NewAmp_Index] = "Y" {
             set vp to goodLine[dataFile_NewVpitch_Index]:toNumber.
           }
           else {

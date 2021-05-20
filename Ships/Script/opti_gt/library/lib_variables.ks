@@ -12,7 +12,14 @@ function defineGlobalVariables {
 
   // /!\ l'apoCible est un indicateur pour terminer le Gravity Turn, 
   // il ne s'agit pas de l'apoapsis de l'orbite après circularisation
-  global apoCible is 100_000.
+  global apoCible is body:atm:height * 1.4.
+  global planetScale is body:radius / 600_000.
+  global deltaScale is floor(8 * sqrt(planetScale)).
+  local N is 0.
+  until deltaScale <= 2^N {
+    set N to N + 1.
+  }
+  set deltaScale to 2^N.
 
   // ~ variables pour AMP
   global suggestedAmp is 0.
