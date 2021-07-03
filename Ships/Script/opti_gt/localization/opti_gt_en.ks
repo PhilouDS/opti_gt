@@ -190,9 +190,9 @@ set DIC_warningTWR_popup_button_text to "UNDERSTOOD".
 
 //--- PRO POPUP
 set DIC_pro_popup_title to "<b>I AM A PRO</b>".
-set DIC_pro_popup_success_text to "I'm able to recognize that the current flight will suceed. The vPitch must be raised.".
+set DIC_pro_popup_success_text to "I'm able to recognize that the current flight will fail. The vPitch must be lowered.".
 set DIC_pro_popup_success_button to "GT TOO LATE".
-set DIC_pro_popup_failure_text to "I'm able to recognize that the current flight will fail. The vPitch must be lowered.".
+set DIC_pro_popup_failure_text to "I'm able to recognize that the current flight will suceed. The vPitch must be raised.".
 set DIC_pro_popup_failure_button to "GT TOO SOON".
 set DIC_pro_popup_staging_text to "I need to jettison this stage. Why? Because I'm the boss!".
 set DIC_pro_popup_staging_button to "STAGE NOW".
